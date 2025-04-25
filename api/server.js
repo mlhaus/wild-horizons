@@ -3,10 +3,20 @@ import { data } from '../data/data.js'
 import { jsFrameworks } from '../data/jsFrameworks.js'
 const PORT = 8000
 
+const animal = {
+    type: 'elephant',
+    nickName: 'Elon Tusk'
+}
+
+console.log(typeof JSON.stringify(animal))
+
+
 const server = http.createServer((req, res) => {
+
     if (req.url === '/api' && req.method === 'GET') {
         res.end('This is from the server')
     }
+
 })
 
 server.listen(PORT, () => console.log(`server running on port: ${PORT}`))
