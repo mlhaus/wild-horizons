@@ -3,10 +3,10 @@ import { data } from '../data/data.js'
 import { jsFrameworks } from '../data/jsFrameworks.js'
 const PORT = 8000
 
-const server = http.createServer( (req, res)=> {
-    res.write('This is some data \n')
-    res.write('This is some more data \n')
-    res.end('This is from the server', 'utf8', ()=> console.log('response end'))
+const server = http.createServer((req, res) => {
+    if (req.url === '/api' && req.method === 'GET') {
+        res.end('This is from the server')
+    }
 })
 
 server.listen(PORT, () => console.log(`server running on port: ${PORT}`))
