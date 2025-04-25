@@ -15,10 +15,26 @@ console.log(typeof JSON.stringify(animal))
 
 const server = http.createServer(async (req, res) => {
     const destinations = await getDataFromDB()
-    // localhost:8000/api works, localhost:8000/api/ does not
-    if (req.url === '/api' && req.method === 'GET') {
+    const urlObj = new URL(req.url, `http://${req.headers.host}`)
 
-        sendJSONResponse(res, 200, destinations)
+    const queryObj = Object.fromEntries(urlObj.searchParams)
+
+    /*
+    Challenge:
+      1. Have a look through the urlObj and find a property which we
+         can use instead of req.url. We need something that will
+         satisfy the condition regardless of whether query params were used.
+    */
+
+
+    if (urlObj.pathname === '/api' && req.method === 'GET') {
+
+        let filteredDestinations = destinations
+
+        console.log(queryObj)
+        // update filteredDestinations
+
+        sendJSONResponse(res, 200, filteredDestinations)
 
     } else if (req.url.startsWith('/api/continent') && req.method === 'GET') {
 
