@@ -1,5 +1,5 @@
 import http from 'node:http'
-import { data } from '../data/data.js'
+import { getDataFromDB } from '../database/db.js'
 import { jsFrameworks } from '../data/jsFrameworks.js'
 const PORT = 8000
 
@@ -11,12 +11,11 @@ const animal = {
 console.log(typeof JSON.stringify(animal))
 
 
-const server = http.createServer((req, res) => {
-
+const server = http.createServer(async (req, res) => {
+    const destinations = await getDataFromDB()
     if (req.url === '/api' && req.method === 'GET') {
-        res.end('This is from the server')
+        res.end(JSON.stringify(destinations))
     }
-
 })
 
 server.listen(PORT, () => console.log(`server running on port: ${PORT}`))
