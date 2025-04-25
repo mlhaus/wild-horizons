@@ -16,7 +16,9 @@ const server = http.createServer(async (req, res) => {
     const destinations = await getDataFromDB()
     // localhost:8000/api works, localhost:8000/api/ does not
     if (req.url === '/api' && req.method === 'GET') {
+
         sendJSONResponse(res, 200, destinations)
+
     } else if (req.url.startsWith('/api/continent') && req.method === 'GET') {
 
         const continent = req.url.split('/').pop()
@@ -24,14 +26,25 @@ const server = http.createServer(async (req, res) => {
             return destination.continent.toLowerCase() === continent.toLowerCase()
         })
         sendJSONResponse(res, 200, filteredData)
-    } else {
+
+    } else if (req.url.startsWith('/api/country') && req.method === 'GET') {
+
+        const country = req.url.split('/').pop()
+        const filteredData = destinations.filter((destination) => {
+            return destination.country.toLowerCase() === country.toLowerCase()
+        })
+        sendJSONResponse(res, 200, filteredData)
+
+    }
+
+    else {
 
         res.setHeader('Content-Type', 'application/json')
         sendJSONResponse(res, 404, ({
-                error: "not found",
-                message: "The requested route does not exist"
-            })
-        )
+            error: "not found",
+            message: "The requested route does not exist"
+        }))
+
     }
 })
 
