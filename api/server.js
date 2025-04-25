@@ -5,14 +5,6 @@ import { getDataByPathParams } from '../utils/getDataByPathParams.js'
 import { jsFrameworks } from '../data/jsFrameworks.js'
 const PORT = 8000
 
-const animal = {
-    type: 'elephant',
-    nickName: 'Elon Tusk'
-}
-
-console.log(typeof JSON.stringify(animal))
-
-
 const server = http.createServer(async (req, res) => {
     const destinations = await getDataFromDB()
     const urlObj = new URL(req.url, `http://${req.headers.host}`)
